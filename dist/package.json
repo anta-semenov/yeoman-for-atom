@@ -1,0 +1,12 @@
+{
+  "name": "yeoman-for-atom",
+  "version": "0.0.0",
+  "description": "",
+  "main": "./lib/bundle",
+  "activationCommands": {
+    "atom-workspace": "yeoman-for-atom:toggle"
+  },
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  }
+}

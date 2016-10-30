@@ -1,0 +1,84 @@
+{
+  "name": "yeoman-for-atom",
+  "version": "0.0.0",
+  "description": "",
+  "main": "./lib/yeomanForAtom",
+  "activationCommands": {
+    "atom-workspace": "yeoman-for-atom:toggle"
+  },
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "scripts": {
+    "start": "NODE_ENV=dev node server.js",
+    "test": "jest",
+    "test:watch": "npm test -- --watch",
+    "deploy": "node build.js"
+  },
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "l10n": "^0.2.4",
+    "lodash": "^4.16.4",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-redux": "^4.4.5",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.1.0",
+    "reselect": "^2.5.4"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.5.1",
+    "babel-cli": "^6.16.0",
+    "babel-core": "^6.17.0",
+    "babel-eslint": "^7.0.0",
+    "babel-jest": "^16.0.0",
+    "babel-loader": "^6.2.5",
+    "babel-preset-es2015": "^6.16.0",
+    "babel-preset-es2015-loose": "^8.0.0",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "babel-preset-stage-1": "^6.16.0",
+    "css-loader": "^0.25.0",
+    "cssnano": "^3.7.7",
+    "eslint": "^3.8.1",
+    "eslint-import-resolver-webpack": "^0.6.0",
+    "eslint-plugin-import": "^2.0.1",
+    "eslint-plugin-react": "^6.4.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.9.0",
+    "html-webpack-plugin": "^2.24.0",
+    "jasmine-immutablejs-matchers": "^0.1.2",
+    "jest-cli": "^16.0.2",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
+    "postcss": "^5.2.5",
+    "postcss-loader": "^1.0.0",
+    "react-addons-test-utils": "^15.3.2",
+    "react-hot-loader": "^3.0.0-beta.6",
+    "react-test-renderer": "^15.3.2",
+    "redux-devtools": "^3.3.1",
+    "redux-devtools-dock-monitor": "^1.1.1",
+    "redux-devtools-log-monitor": "^1.1.0",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.16.2"
+  },
+  "keywords": [
+    "Atom",
+    "Yeoman"
+  ],
+  "author": "Anton Semenov",
+  "license": "MIT",
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-0",
+      "stage-1",
+      "react"
+    ],
+    "plugins": [
+      "react-hot-loader/babel"
+    ]
+  }
+}

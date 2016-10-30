@@ -1,0 +1,12 @@
+# dependencies
+node_modules
+.lock
+yarn.lock
+
+# production
+dist/lib/bundle*
+dist/lib/style*
+
+# misc
+.DS_Store
+npm-debug.log

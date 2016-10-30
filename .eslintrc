@@ -1,0 +1,60 @@
+{
+  "ecmaFeatures": {
+    "jsx": true,
+    "modules": true
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "jest": true,
+    "mocha": true,
+    "atomtest": true
+  },
+  "parser": "babel-eslint",
+  "rules": {
+    "quotes": [
+      1,
+      "single"
+    ],
+    "strict": [
+      2,
+      "never"
+    ],
+    "semi": [
+      0,
+      "always"
+    ],
+    "no-unused-vars": [
+      1
+    ],
+    "react/jsx-uses-react": 2,
+    "react/jsx-uses-vars": 2,
+    "react/react-in-jsx-scope": 2,
+    "react/prop-types": [1],
+    "no-alert": 0,
+    "import/no-unresolved": [2],
+    "import/named": [2],
+    "import/default": [2],
+    "import/namespace": [2],
+    "import/first": [1],
+    "import/no-duplicates": [1],
+    "import/newline-after-import": [1],
+    "import/prefer-default-export": [1],
+    "object-property-newline": [1]
+  },
+  "extends": "eslint:recommended",
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack.config.dev.js"
+      }
+    }
+  },
+  globals: {
+    "Promise": true
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "context-menu": {
+    "atom-text-editor": [
+      {
+        "label": "Toggle anton-simple-word-count",
+        "command": "anton-simple-word-count:toggle"
+      }
+    ]
+  },
+  "menu": [
+    {
+      "label": "Packages",
+      "submenu": [
+        {
+          "label": "Yeoman",
+          "submenu": [
+            {
+              "label": "Toggle",
+              "command": "yeoman-for-atom:toggle"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
