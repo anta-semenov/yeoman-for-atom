@@ -5,5 +5,7 @@ module.exports = {
   '_reducer': path.resolve('./src/reducer'),
   '_actions': path.resolve('./src/actions'),
   '_actionTypes': path.resolve('./src/constants/actionTypes.js'),
-  _Input: path.resolve('./src/components/input/inputConnect.js')
+  _Input: path.resolve('./src/components/input/inputConnect.js'),
+  _List: path.resolve('./src/components/list/listConnect.js'),
+  _ListItem: path.resolve('./src/components/listItem/ListItem.js')
 }

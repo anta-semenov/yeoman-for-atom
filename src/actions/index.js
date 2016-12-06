@@ -18,7 +18,7 @@ export const toggle = () => ({type: actionTypes.TOGGLE})
 export const loadGenerators = () => dispatch => {
   env.lookup(() => {
     const generators = env.getGeneratorsMeta()
-    console.log(env.run('react'));
     console.log(generators);
+    dispatch()
   })
 }
