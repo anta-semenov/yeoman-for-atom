@@ -2,8 +2,8 @@
   "context-menu": {
     "atom-text-editor": [
       {
-        "label": "Toggle anton-simple-word-count",
-        "command": "anton-simple-word-count:toggle"
+        "label": "Toggle yeoman",
+        "command": "yeoman-for-atom:toggle"
       }
     ]
   },

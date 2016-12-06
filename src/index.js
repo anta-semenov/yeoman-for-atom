@@ -11,7 +11,7 @@ let subscriptions
 let modalPanel
 
 export const activate = state => {
-  const store = configureStore()
+  const store = configureStore(toggle)
   element = document.createElement('div')
   element.id = 'yeomanForAtomRoot'
   ReactDOM.render(<Root store={store} />, element)

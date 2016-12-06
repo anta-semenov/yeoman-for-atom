@@ -1,8 +1,11 @@
 import React from 'react'
 import './App.less'
+import Input from '_Input'
 
 const App = () => (
-  <div>Hello world</div>
+  <div>
+    <Input/>
+  </div>
 )
 
 export default App
