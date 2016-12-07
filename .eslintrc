@@ -39,8 +39,7 @@
     "import/first": [1],
     "import/no-duplicates": [1],
     "import/newline-after-import": [1],
-    "import/prefer-default-export": [1],
-    "object-property-newline": [1]
+    "import/prefer-default-export": [1]
   },
   "extends": "eslint:recommended",
   "plugins": [
