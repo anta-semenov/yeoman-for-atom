@@ -7,5 +7,6 @@ module.exports = {
   '_actionTypes': path.resolve('./src/constants/actionTypes.js'),
   _Input: path.resolve('./src/components/input/inputConnect.js'),
   _List: path.resolve('./src/components/list/listConnect.js'),
-  _ListItem: path.resolve('./src/components/listItem/ListItem.js')
+  _ListItem: path.resolve('./src/components/listItem/ListItem.js'),
+  _yeomanAdapter: path.resolve('./src/services/yeomanDapter.js')
 }
