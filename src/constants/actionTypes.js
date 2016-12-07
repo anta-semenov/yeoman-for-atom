@@ -7,4 +7,5 @@ export const NEXT = 'NEXT'
 export const CANCEL = 'CANCEL'
 export const CHECKED = 'CHECKED'
 
-export const LOAD_QUESTION_DATA = 'LOAD_QUESTION_DATA'
+export const INIT_PROMPT = 'INIT_PROMPT'
+export const LOAD_NEXT_QUESTION = 'LOAD_NEXT_QUESTION'
