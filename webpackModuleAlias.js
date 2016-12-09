@@ -8,5 +8,6 @@ module.exports = {
   _Input: path.resolve('./src/components/input/inputConnect.js'),
   _List: path.resolve('./src/components/list/listConnect.js'),
   _ListItem: path.resolve('./src/components/listItem/ListItem.js'),
-  _yeomanAdapter: path.resolve('./src/services/yeomanDapter.js')
+  _yeomanAdapter: path.resolve('./src/services/yeomanAdapter.js'),
+  _questionTypes: path.resolve('./src/constants/questionTypes.js')
 }

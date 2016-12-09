@@ -8,9 +8,13 @@ const env = yeoman.createEnv(undefined, undefined, adapter)
 */
 
 export const changeInput = value => ({type: actionTypes.CHANGE_INPUT, value})
+export const up = () => ({type: actionTypes.UP})
+export const down = () => ({type: actionTypes.DOWN})
+export const check = checkedIndex => ({type: actionTypes.CHECKED, checkedIndex})
 
 export const toggle = () => ({type: actionTypes.TOGGLE})
 export const initPrompt = (questions, cb) => ({type: actionTypes.INIT_PROMPT, questions, cb})
+export const loadNextQuestion = question => ({type: actionTypes.LOAD_NEXT_QUESTION, question})
 
 /*
 * Thunks

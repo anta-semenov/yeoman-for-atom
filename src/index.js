@@ -9,11 +9,13 @@ import {CompositeDisposable} from 'atom'
 let element
 let subscriptions
 let modalPanel
+let dispatch
 
 export const activate = state => {
   const store = configureStore(toggle)
   element = document.createElement('div')
   element.id = 'yeomanForAtomRoot'
+  dispatch = store.dispatch
   ReactDOM.render(<Root store={store} />, element)
 
   modalPanel = atom.workspace.addModalPanel({

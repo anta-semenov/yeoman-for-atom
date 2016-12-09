@@ -16,10 +16,24 @@ export const nextQuestionMiddleware = store => next => action => {
   if (action.type === actionTypes.NEXT) {
     const nextState = store.getState()
     const questions = getQuestions(nextState)
+    const answers = getAnswers(nextState)
     if (questions.length === 0) {
-      getCallback(nextState)(getAnswers(nextState))
+      getCallback(nextState)(answers)
     } else {
-      actions.loadNextQuestion(questions[0])
+      let question = questions[0]
+      if (typeof question.default === 'function') {
+        question = {
+          ...question,
+          default: question.default(answers)
+        }
+      }
+      if (question.when === true ||
+          (typeof question.when === 'function' && question.when(answers) === true)) {
+        store.dispatch(actions.loadNextQuestion(questions[0]))
+      } else {
+        const answer = {name: question.name, value: undefined}
+        store.dispatch(actions.next(answer))
+      }
     }
   }
 
