@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect'
 import * as actionTypes from '_actionTypes'
 import * as questionTypes from '_questionTypes'
 
@@ -6,11 +7,12 @@ const dialog = (state = {}, action) => {
     case actionTypes.LOAD_NEXT_QUESTION:
       return loadQuestion(action)
     case actionTypes.CHANGE_INPUT:
+      console.log('change input', action.value);
       return {...state, input: action.value}
     case actionTypes.UP:
-      return {...state, selectedVariant: state.selectedVariant === 0 ? state.choices.length - 1 : state.selectedVariant - 1}
+      return nextVariant(state)
     case actionTypes.DOWN:
-      return {...state, selectedVariant: state.selectedVariant === (state.choices.length - 1) ? 0 : state.selectedVariant + 1}
+      return previousVariant(state)
     case actionTypes.CHECKED:
       return check(state, action)
     default:
@@ -43,8 +45,18 @@ export const getSelectedVariant = state => state.selectedVariant
 export const getVariants = state => state.variants
 export const getDialogMessage = state => state.message
 export const getInput = state => state.input
-export const getFilteredVariants = ({variants, input}) => variants.filter(item => item.name === input)
 export const getInputPlaceholder = state => state.placeholder
+export const getFilteredVariants = createSelector(
+  state => state,
+  ({variants = [], input}) => {console.log('input for filter', input);return variants.filter(item => input === '' || item.name.toLowerCase().indexOf(input.toLowerCase()) !== -1)}
+)
+
+const getSelectedVariantIndex = state => {
+  const variant = getSelectedVariant(state)
+  const variants = getFilteredVariants(state)
+  const index = variants.findIndex(item => item === variant)
+  return Math.max(index, 0)
+}
 
 /*
  Utils
@@ -66,7 +78,7 @@ const loadQuestion = ({question: {type, name, message, choices, default: default
     message,
     variants,
     input: '',
-    selectedVariant: type === questionTypes.LIST && defaultValue ? defaultValue : 0,
+    selectedVariant: type === questionTypes.LIST && defaultValue ? variants[defaultValue] : variants[0],
     placeholder: type === questionTypes.INPUT && defaultValue ? defaultValue : 'you can filter variants here'
   })
 }
@@ -79,4 +91,22 @@ const check = (state, {checkedIndex}) => {
     return item
   })
   return {...state, variants}
+}
+
+const nextVariant = state => {
+  const nextState = {...state}
+  const variants = getFilteredVariants(state)
+  const selectedIndex = getSelectedVariantIndex(state)
+
+  nextState.selectedVariant = selectedIndex === 0 ? variants[variants.length - 1] : variants[selectedIndex - 1]
+  return nextState
+}
+
+const previousVariant = state => {
+  const nextState = {...state}
+  const variants = getFilteredVariants(state)
+  const selectedIndex = getSelectedVariantIndex(state)
+
+  nextState.selectedVariant = selectedIndex === (variants.length - 1) ? variants[0] : variants[selectedIndex + 1]
+  return nextState
 }

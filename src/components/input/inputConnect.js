@@ -1,6 +1,6 @@
 import {connect} from 'react-redux'
 import Input from './Input'
-import actions from '_actions'
+import * as actions from '_actions'
 import * as fromReducer from '_reducer'
 
 const mapStateToProps = state => ({
@@ -12,7 +12,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onChange: newValue => dispatch(actions.changeInput(newValue)),
   next: answer => dispatch(actions.next(answer)),
-  cancel: () => dispatch(actions.toggle())
+  cancel: () => dispatch(actions.toggle()),
+  onMoveDown: () => dispatch(actions.down()),
+  onMoveUp: () => dispatch(actions.up())
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({

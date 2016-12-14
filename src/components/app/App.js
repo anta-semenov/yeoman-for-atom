@@ -4,10 +4,12 @@ import Input from '_Input'
 import List from '_List'
 
 const App = () => (
-  <div>
-    <Input/>
-    <List />
-  </div>
+  <atom-panel class='modal'>
+    <div className='select-list'>
+      <Input/>
+      <List />
+    </div>    
+  </atom-panel>
 )
 
 export default App

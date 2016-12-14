@@ -1,4 +1,4 @@
-import * as actionTypes from '_actions'
+import * as actionTypes from '_actionTypes'
 import * as actions from '_actions'
 import {getQuestions, getCallback, getAnswers} from '_reducer'
 

@@ -4,7 +4,7 @@ import * as actions from '_actions'
 import * as fromReducer from '_reducer'
 
 const mapStateToProps = state => ({
-  items: fromReducer.getVariants(state),
+  items: fromReducer.getFilteredVariants(state),
   selectedItem: fromReducer.getSelectedVariant(state)
 })
 

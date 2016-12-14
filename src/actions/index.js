@@ -1,6 +1,7 @@
-import actionTypes from '_actionTypes'
+import * as actionTypes from '_actionTypes'
 import yeoman from 'yeoman-environment'
 import adapter from '_yeomanAdapter'
+import * as questionTypes from '_questionTypes'
 
 const env = yeoman.createEnv(undefined, undefined, adapter)
 /*
@@ -23,8 +24,26 @@ export const loadNextQuestion = question => ({type: actionTypes.LOAD_NEXT_QUESTI
 export const loadGenerators = () => dispatch => {
   env.lookup(() => {
     const generators = env.getGeneratorsMeta()
-    console.log(generators);
-    dispatch()
+    const generatorsVariants = Object.keys(generators).map(key => {
+      const generator = generators[key]
+      return ({
+        name: generator.namespace.replace(/:app$/, '').replace(':', ' '),
+        value: () => {
+          //TODO get different options from atom: project folder, current file, etc
+          env.run(generator.namespace)
+        }
+      })
+    })
+
+    const generatorsQuestion = {
+      type: questionTypes.LIST,
+      name: 'chooseGenerator',
+      message: 'Choose the generator',
+      choices: generatorsVariants.sort((a, b) => a.name > b.name ? 1 : -1),
+      default: 0
+    }
+
+    dispatch(loadNextQuestion(generatorsQuestion))
   })
 }
 

@@ -2,7 +2,7 @@ import React from 'react'
 import './ListItem.less'
 
 const ListItem = ({name, checked, onClick, isSelect, onCheckboxClick}) => (
-  <li className={`list-item ${isSelect ? 'selected' : ''} list-item-layout`} onClick={onClick}>
+  <li className={`${isSelect ? 'selected' : ''}`} onClick={onClick}>
     {checked !== undefined &&
       <input type='checkbox' checked={checked} className='input-checkbox' onClick={onCheckboxClick}/>
     }

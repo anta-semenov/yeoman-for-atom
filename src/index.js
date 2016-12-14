@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom'
 import Root from './components/root/Root'
 import configureStore from './store/configureStore'
 import {CompositeDisposable} from 'atom'
+import {loadGenerators} from '_actions'
 
 let element
 let subscriptions
@@ -44,5 +45,6 @@ export const toggle = () => {
     modalPanel.hide()
   } else {
     modalPanel.show()
+    dispatch(loadGenerators())
   }
 }

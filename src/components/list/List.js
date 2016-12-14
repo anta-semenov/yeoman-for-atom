@@ -4,6 +4,7 @@ import ListItem from '_ListItem'
 
 const List = ({selectedItem, items, onMoveDown, onMoveUp, onEnter, onItemClick, onItemCheckboxClick}) => {
   const handleKeyDown = (event) => {
+    console.log('List key down');
     switch (event.keyCode) {
       case 13:
         onEnter()
@@ -17,8 +18,10 @@ const List = ({selectedItem, items, onMoveDown, onMoveUp, onEnter, onItemClick, 
     }
   }
 
+  if (!items) return null
+
   return (
-    <ul onKeyDown={handleKeyDown} className='list-group'>
+    <ol onKeyDown={handleKeyDown} className='list-group'>
       {items.map((item, index) => (
         <ListItem
           key={index}
@@ -28,7 +31,7 @@ const List = ({selectedItem, items, onMoveDown, onMoveUp, onEnter, onItemClick, 
           isSelect={selectedItem.name === item.name}
         />
       ))}
-    </ul>
+    </ol>
   )
 }
 
