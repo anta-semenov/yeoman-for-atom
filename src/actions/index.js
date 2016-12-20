@@ -1,9 +1,11 @@
+/*global atom*/
 import * as actionTypes from '_actionTypes'
 import yeoman from 'yeoman-environment'
 import adapter from '_yeomanAdapter'
 import * as questionTypes from '_questionTypes'
+import {getCurrentAnswer} from '_reducer'
 
-const env = yeoman.createEnv(undefined, undefined, adapter)
+let env
 /*
 * Simple actions
 */
@@ -12,6 +14,7 @@ export const changeInput = value => ({type: actionTypes.CHANGE_INPUT, value})
 export const up = () => ({type: actionTypes.UP})
 export const down = () => ({type: actionTypes.DOWN})
 export const check = checkedIndex => ({type: actionTypes.CHECKED, checkedIndex})
+export const setSelected = selectedVariant => ({type: actionTypes.SET_SELECTED, selectedVariant})
 
 export const toggle = () => ({type: actionTypes.TOGGLE})
 export const initPrompt = (questions, cb) => ({type: actionTypes.INIT_PROMPT, questions, cb})
@@ -22,6 +25,7 @@ export const loadNextQuestion = question => ({type: actionTypes.LOAD_NEXT_QUESTI
 */
 
 export const loadGenerators = () => dispatch => {
+  env = yeoman.createEnv(undefined, undefined, adapter)
   env.lookup(() => {
     const generators = env.getGeneratorsMeta()
     const generatorsVariants = Object.keys(generators).map(key => {
@@ -30,7 +34,11 @@ export const loadGenerators = () => dispatch => {
         name: generator.namespace.replace(/:app$/, '').replace(':', ' '),
         value: () => {
           //TODO get different options from atom: project folder, current file, etc
-          env.run(generator.namespace)
+          const options = {
+            cwd: atom.project.getPaths()[0]
+          }
+          env.cwd = atom.project.getPaths()[0]
+          env.run(generator.namespace, options, () => dispatch(toggle()))
         }
       })
     })
@@ -47,7 +55,8 @@ export const loadGenerators = () => dispatch => {
   })
 }
 
-export const next = currentAnswer => dispatch => {
+export const next = () => (dispatch, getState) => {
+  const currentAnswer = getCurrentAnswer(getState()) || {}
   if (typeof currentAnswer.value === 'function') {
     currentAnswer.value()
   } else {

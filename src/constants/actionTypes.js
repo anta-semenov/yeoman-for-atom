@@ -6,6 +6,7 @@ export const UP = 'UP'
 export const NEXT = 'NEXT'
 export const CANCEL = 'CANCEL'
 export const CHECKED = 'CHECKED'
+export const SET_SELECTED = 'SET_SELECTED'
 
 export const INIT_PROMPT = 'INIT_PROMPT'
 export const LOAD_NEXT_QUESTION = 'LOAD_NEXT_QUESTION'

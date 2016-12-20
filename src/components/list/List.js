@@ -1,34 +1,19 @@
 import React from 'react'
-import './List.less'
 import ListItem from '_ListItem'
 
-const List = ({selectedItem, items, onMoveDown, onMoveUp, onEnter, onItemClick, onItemCheckboxClick}) => {
-  const handleKeyDown = (event) => {
-    console.log('List key down');
-    switch (event.keyCode) {
-      case 13:
-        onEnter()
-        break
-      case 38:
-        onMoveUp()
-        break
-      case 40:
-        onMoveDown()
-        break
-    }
-  }
-
+const List = ({selectedItem, items, onItemClick, onItemCheckboxClick, questionType}) => {
   if (!items) return null
 
   return (
-    <ol onKeyDown={handleKeyDown} className='list-group'>
+    <ol className='list-group'>
       {items.map((item, index) => (
         <ListItem
           key={index}
           {...item}
           onClick={() => onItemClick(item)}
-          onCheckboxClick={() => onItemCheckboxClick(item)}
+          onCheckboxClick={() => onItemCheckboxClick(index)}
           isSelect={selectedItem.name === item.name}
+          questionType={questionType}
         />
       ))}
     </ol>
@@ -38,11 +23,9 @@ const List = ({selectedItem, items, onMoveDown, onMoveUp, onEnter, onItemClick, 
 List.propTypes = {
   selectedItem: React.PropTypes.object.isRequired,
   items: React.PropTypes.object.isRequired,
-  onMoveDown: React.PropTypes.func.isRequired,
-  onMoveUp: React.PropTypes.func.isRequired,
-  onEnter: React.PropTypes.func.isRequired,
+  questionType: React.PropTypes.string.isRequired,
   onItemClick: React.PropTypes.func.isRequired,
-  onCheckboxClick: React.PropTypes.func
+  onItemCheckboxClick: React.PropTypes.func
 }
 
 export default List

@@ -44,7 +44,16 @@ module.exports = {
         include: path.join(__dirname, 'node_modules/yeoman-environment/lib'),
         query: {
           search: 'return require.resolve(untildify(moduleId));',
-          replace: 'return require("./originalRequire")(untildify(moduleId))'
+          replace: 'return require("./originalRequire").resolve(untildify(moduleId))'
+        }
+      },
+      {
+        test: /^.*store\.js$/,
+        loader: 'string-replace',
+        include: path.join(__dirname, 'node_modules/yeoman-environment/lib'),
+        query: {
+          search: 'var Generator = require(path);',
+          replace: 'var Generator = require("./originalRequire")(path);'
         }
       },
       {

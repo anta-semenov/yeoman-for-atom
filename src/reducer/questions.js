@@ -6,6 +6,8 @@ const questions = (state = [], action) => {
       return action.questions
     case actionTypes.NEXT:
       return state.slice(1)
+    case actionTypes.TOGGLE:
+      return []
     default:
       return state
   }

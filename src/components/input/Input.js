@@ -1,11 +1,19 @@
+/*global atom*/
 import React from 'react'
-import './Input.less'
 
 class Input extends React.Component {
   componentDidMount() {
-    if (this._ref) {
-      this._ref.focus()
-      this._ref.onkeydown = event => this.onKeyDown(event)
+    const ref = this._ref
+    if (ref) {
+      const {next, cancel, onMoveDown, onMoveUp, onChange, placeholder} = this.props
+      ref.focus()
+      ref.getModel().placeholderText = placeholder
+      const buffer = ref.getModel().getBuffer()
+      buffer.onDidChange(() => onChange(buffer.getText()))
+      atom.commands.add(ref, 'core:move-up', onMoveUp)
+      atom.commands.add(ref, 'core:move-down', onMoveDown)
+      atom.commands.add(ref, 'core:cancel', cancel)
+      atom.commands.add(ref, 'core:confirm', next)
     }
   }
 
@@ -15,27 +23,9 @@ class Input extends React.Component {
     }
   }
 
-  onKeyDown(event) {
-    const {next, cancel, onMoveDown, onMoveUp, onChange, value} = this.props
-    event.stopPropagation()
-    switch (event.keyCode) {
-      case 13:
-        next()
-        break
-      case 27:
-        cancel()
-        break
-      case 38:
-        onMoveUp()
-        break
-      case 40:
-        onMoveDown()
-        break
-      case 8:
-        onChange(value.slice(0, -1))
-        break
-      default:
-        if (event.key.length === 1) onChange(value + event.key)
+  componentWillReceiveProps({value}) {
+    if (value === '' && value !== this.props.value && this._ref) {
+      this._ref.getModel().getBuffer().setText('')
     }
   }
 
@@ -43,52 +33,22 @@ class Input extends React.Component {
     const {value, onChange, placeholder, next, cancel, onMoveDown, onMoveUp} = this.props
 
     return (
-      <input
-        className='input-text native-key-bindings is-focused'
-        type='text'
-        placeholder={placeholder}
-        value={value}
+      <atom-text-editor
+        mini
         ref={ref => {this._ref = ref}}
       />
     )
   }
 }
 
-// const Input = ({value, onChange, placeholder, next, cancel, onMoveDown, onMoveUp}) => {
-//   const onKeyDown = e => {
-//     switch (e.keyCode) {
-//       case 13:
-//         next()
-//         break
-//       case 27:
-//         cancel()
-//         break
-//       case 38:
-//         onMoveUp()
-//         break
-//       case 40:
-//         onMoveDown()
-//         break
-//     }
-//   }
-//   return (
-//     <input
-//       class='input-text'
-//       type='text'
-//       placeholder={placeholder}
-//       value={value}
-//       onChange={e => onChange(e.target.value)}
-//       onKeyDown={onKeyDown}
-//     />
-//   )
-// }
-
 Input.propTypes = {
   value: React.PropTypes.string.isRequired,
   placeholder: React.PropTypes.string.isRequired,
   onChange: React.PropTypes.func.isRequired,
   next: React.PropTypes.func.isRequired,
-  cancel: React.PropTypes.func.isRequired
+  cancel: React.PropTypes.func.isRequired,
+  onMoveDown: React.PropTypes.func.isRequired,
+  onMoveUp: React.PropTypes.func.isRequired
 }
 
 export default Input

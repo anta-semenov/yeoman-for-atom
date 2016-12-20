@@ -27,12 +27,12 @@ export const nextQuestionMiddleware = store => next => action => {
           default: question.default(answers)
         }
       }
-      if (question.when === true ||
+      if (question.when === undefined|| question.when === true ||
           (typeof question.when === 'function' && question.when(answers) === true)) {
-        store.dispatch(actions.loadNextQuestion(questions[0]))
+        store.dispatch(actions.loadNextQuestion(question))
       } else {
-        const answer = {name: question.name, value: undefined}
-        store.dispatch(actions.next(answer))
+        const currentAnswer = {name: question.name, value: undefined}
+        store.dispatch({type: actionTypes.NEXT, currentAnswer})
       }
     }
   }

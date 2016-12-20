@@ -28,7 +28,7 @@ Object.keys(fromCallback).forEach(key => {
 
 Object.keys(fromAnswers).forEach(key => {
   if (key === 'default') return
-  module.exports[key] = state => fromAnswers[key](state.anwers)
+  module.exports[key] = state => fromAnswers[key](state.answers)
 })
 
 Object.keys(fromQuestions).forEach(key => {

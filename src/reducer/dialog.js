@@ -5,16 +5,21 @@ import * as questionTypes from '_questionTypes'
 const dialog = (state = {}, action) => {
   switch (action.type) {
     case actionTypes.LOAD_NEXT_QUESTION:
-      return loadQuestion(action)
+      return loadQuestion(action.question)
+    case actionTypes.INIT_PROMPT:
+      return loadQuestion(action.questions[0])
     case actionTypes.CHANGE_INPUT:
-      console.log('change input', action.value);
-      return {...state, input: action.value}
+      return onInputChange(state, action.value)
     case actionTypes.UP:
       return nextVariant(state)
     case actionTypes.DOWN:
       return previousVariant(state)
     case actionTypes.CHECKED:
       return check(state, action)
+    case actionTypes.SET_SELECTED:
+      return {...state, selectedVariant: action.selectedVariant}
+    case actionTypes.TOGGLE:
+      return {}
     default:
       return state
   }
@@ -25,17 +30,18 @@ export default dialog
 /*
  Selectors
 */
-export const getCurrentAnswer = ({input, variants, selectedVariant, name, questionType, placeholder}) => {
+export const getCurrentAnswer = state => {
+  const {input, variants, name, questionType, placeholder} = state
   let value
   switch (questionType) {
     case questionTypes.INPUT:
       value = input || placeholder
       break
     case questionTypes.LIST:
-      value = variants[selectedVariant]
+      value = variants[getSelectedVariantIndex(state)].value
       break
     case questionTypes.CHECKBOX:
-      value = variants.filter(item => item.checked)
+      value = variants.filter(item => item.checked).map(item => item.value)
   }
 
   return {name, value}
@@ -46,9 +52,10 @@ export const getVariants = state => state.variants
 export const getDialogMessage = state => state.message
 export const getInput = state => state.input
 export const getInputPlaceholder = state => state.placeholder
+export const getQuestionType = state => state.questionType
 export const getFilteredVariants = createSelector(
   state => state,
-  ({variants = [], input}) => {console.log('input for filter', input);return variants.filter(item => input === '' || item.name.toLowerCase().indexOf(input.toLowerCase()) !== -1)}
+  ({variants = [], input}) => variants.filter(item => input === '' || item.name.toLowerCase().indexOf(input.toLowerCase()) !== -1)
 )
 
 const getSelectedVariantIndex = state => {
@@ -62,13 +69,12 @@ const getSelectedVariantIndex = state => {
  Utils
 */
 
-const loadQuestion = ({question: {type, name, message, choices, default: defaultValue}}) => {
+const loadQuestion = ({type, name, message, choices, default: defaultValue}) => {
   let variants = choices || []
-  if (type === questionTypes.CHECKBOX && (Array.isArray(defaultValue) || typeof defaultValue === 'number')) {
-    const indexies = Array.isArray(defaultValue) ? defaultValue : [defaultValue]
-    variants = variants.map((item, index) => ({
+  if (type === questionTypes.CHECKBOX && Array.isArray(defaultValue)) {
+    variants = variants.map(item => ({
       ...item,
-      checked: indexies.find(item => item === index) !== undefined
+      checked: defaultValue.find(value => item.value === value) !== undefined
     }))
   }
 
@@ -79,7 +85,7 @@ const loadQuestion = ({question: {type, name, message, choices, default: default
     variants,
     input: '',
     selectedVariant: type === questionTypes.LIST && defaultValue ? variants[defaultValue] : variants[0],
-    placeholder: type === questionTypes.INPUT && defaultValue ? defaultValue : 'you can filter variants here'
+    placeholder: type === questionTypes.INPUT ? defaultValue : 'you can filter variants here'
   })
 }
 
@@ -109,4 +115,15 @@ const previousVariant = state => {
 
   nextState.selectedVariant = selectedIndex === (variants.length - 1) ? variants[0] : variants[selectedIndex + 1]
   return nextState
+}
+
+const onInputChange = (state, newInput) => {
+  const newState = {...state, input: newInput}
+
+  if (state.questionType !== questionTypes.INPUT) {
+    const selectedVariant = getFilteredVariants(newState)[getSelectedVariantIndex(newState)]
+    newState.selectedVariant = selectedVariant
+  }
+
+  return newState
 }
