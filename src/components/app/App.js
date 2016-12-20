@@ -5,10 +5,10 @@ import Message from '_Message'
 
 const App = () => (
   <atom-panel class='modal'>
+    <Message/>
     <div className='select-list'>
-      <Message/>
       <Input/>
-      <List />
+      <List/>
     </div>
   </atom-panel>
 )
