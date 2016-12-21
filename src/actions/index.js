@@ -4,6 +4,7 @@ import yeoman from 'yeoman-environment'
 import adapter from '_yeomanAdapter'
 import * as questionTypes from '_questionTypes'
 import {getCurrentAnswer} from '_reducer'
+import {allowUnsafeNewFunction} from 'loophole'
 
 let env
 /*
@@ -32,14 +33,14 @@ export const loadGenerators = () => dispatch => {
       const generator = generators[key]
       return ({
         name: generator.namespace.replace(/:app$/, '').replace(':', ' '),
-        value: () => {
+        value: () => allowUnsafeNewFunction(() => {
           //TODO get different options from atom: project folder, current file, etc
           const options = {
             cwd: atom.project.getPaths()[0]
           }
           env.cwd = atom.project.getPaths()[0]
           env.run(generator.namespace, options, () => dispatch(toggle()))
-        }
+        })
       })
     })
 
