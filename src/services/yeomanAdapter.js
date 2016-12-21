@@ -1,4 +1,4 @@
-import {initPrompt, next, toggle} from '_actions'
+import {initPrompt, next} from '_actions'
 import {dispatch} from '_configureStore'
 
 const adapter = {
