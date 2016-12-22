@@ -1,7 +1,6 @@
 import * as actionTypes from '_actionTypes'
 import * as actions from '_actions'
 import {getQuestions, getCallback, getAnswers} from '_reducer'
-import {allowUnsafeEval, allowUnsafeNewFunction} from 'loophole'
 
 export const toggleMiddleware = toggleCallback => store => next => action => {
   if (action.type === actionTypes.TOGGLE) {
@@ -19,7 +18,7 @@ export const nextQuestionMiddleware = store => next => action => {
     const questions = getQuestions(nextState)
     const answers = getAnswers(nextState)
     if (questions.length === 0) {
-      allowUnsafeEval(() => allowUnsafeNewFunction(() => {getCallback(nextState)(answers)}))
+      getCallback(nextState)(answers)
     } else {
       let question = questions[0]
       if (typeof question.default === 'function') {
