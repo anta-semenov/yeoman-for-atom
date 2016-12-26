@@ -11,5 +11,6 @@ module.exports = {
   _ListItem: path.resolve('./src/components/listItem/ListItem.js'),
   _yeomanAdapter: path.resolve('./src/services/yeomanAdapter.js'),
   _questionTypes: path.resolve('./src/constants/questionTypes.js'),
-  _Message: path.resolve('./src/components/message/messageConnect.js')
+  _Message: path.resolve('./src/components/message/messageConnect.js'),
+  _Waiting: path.resolve('./src/components/waiting/waitingConnect.js')
 }

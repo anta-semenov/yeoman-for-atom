@@ -18,6 +18,7 @@ export const nextQuestionMiddleware = store => next => action => {
     const questions = getQuestions(nextState)
     const answers = getAnswers(nextState)
     if (questions.length === 0) {
+      store.dispatch(actions.waiting('Run generator'))
       getCallback(nextState)(answers)
     } else {
       let question = questions[0]

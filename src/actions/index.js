@@ -17,6 +17,7 @@ export const check = checkedIndex => ({type: actionTypes.CHECKED, checkedIndex})
 export const setSelected = selectedVariant => ({type: actionTypes.SET_SELECTED, selectedVariant})
 
 export const toggle = () => ({type: actionTypes.TOGGLE})
+export const waiting = message => ({type: actionTypes.WAITING, message})
 export const initPrompt = (questions, cb) => ({type: actionTypes.INIT_PROMPT, questions, cb})
 export const loadNextQuestion = question => ({type: actionTypes.LOAD_NEXT_QUESTION, question})
 
@@ -33,12 +34,17 @@ export const loadGenerators = () => dispatch => {
       return ({
         name: generator.namespace.replace(/:app$/, '').replace(':', ' '),
         value: () => {
+          dispatch(waiting('Load generator'))
+
           //TODO get different options from atom: project folder, current file, etc
           const options = {
-            cwd: atom.project.getPaths()[0]
+            cwd: atom.project.getPaths()[0],
+            force: true
           }
           env.cwd = atom.project.getPaths()[0]
-          env.run(generator.namespace, options, () => dispatch(toggle()))
+          return new Promise(resolve => {
+            env.run(generator.namespace, options, resolve)
+          }).then(() => dispatch(toggle())).catch(() => dispatch(toggle()))
         }
       })
     })

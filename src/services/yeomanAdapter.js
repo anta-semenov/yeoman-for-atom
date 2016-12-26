@@ -12,7 +12,7 @@ const adapter = {
     }
   },
   diff: () => {},
-  log: () => {}
+  log: (...args) => {console.log(...args);}
 }
 
 adapter.log.create = () => {}

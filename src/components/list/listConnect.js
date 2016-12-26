@@ -6,7 +6,8 @@ import * as fromReducer from '_reducer'
 const mapStateToProps = state => ({
   items: fromReducer.getFilteredVariants(state),
   selectedItem: fromReducer.getSelectedVariant(state),
-  questionType: fromReducer.getQuestionType(state)
+  questionType: fromReducer.getQuestionType(state),
+  isWaiting: fromReducer.isWaiting(state)
 })
 
 const mapDispatchToProps = dispatch => ({

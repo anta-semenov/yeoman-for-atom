@@ -1,4 +1,5 @@
 export const TOGGLE = 'TOGGLE'
+export const WAITING = 'WAITING'
 
 export const CHANGE_INPUT = 'CHANGE_INPUT'
 export const DOWN = 'DOWN'

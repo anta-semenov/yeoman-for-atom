@@ -3,12 +3,14 @@ import questions, * as fromQuestions from './questions'
 import answers, * as fromAnswers from './answers'
 import callback, * as fromCallback from './callback'
 import dialog, * as fromDialog from './dialog'
+import waiting, * as fromWaiting from './waiting'
 
 const reducer = combineReducers({
   questions,
   answers,
   callback,
-  dialog
+  dialog,
+  waiting
 })
 
 export default reducer
@@ -34,4 +36,9 @@ Object.keys(fromAnswers).forEach(key => {
 Object.keys(fromQuestions).forEach(key => {
   if (key === 'default') return
   module.exports[key] = state => fromQuestions[key](state.questions)
+})
+
+Object.keys(fromWaiting).forEach(key => {
+  if (key === 'default') return
+  module.exports[key] = state => fromWaiting[key](state.waiting)
 })

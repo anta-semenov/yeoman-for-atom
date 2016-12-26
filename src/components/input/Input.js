@@ -2,35 +2,43 @@
 import React from 'react'
 
 class Input extends React.Component {
+  state = {shouldInitRef: true}
+
   componentDidMount() {
-    const ref = this._ref
+    this.initInput(this._ref)
+  }
+
+  initInput(ref) {
     if (ref) {
-      const {next, cancel, onMoveDown, onMoveUp, onChange, placeholder} = this.props
       ref.focus()
-      ref.getModel().placeholderText = placeholder
-      const buffer = ref.getModel().getBuffer()
-      buffer.onDidChange(() => onChange(buffer.getText()))
-      atom.commands.add(ref, 'core:move-up', onMoveUp)
-      atom.commands.add(ref, 'core:move-down', onMoveDown)
-      atom.commands.add(ref, 'core:cancel', cancel)
-      atom.commands.add(ref, 'core:confirm', next)
+      if (this.state.shouldInitRef) {
+        const {next, cancel, onMoveDown, onMoveUp, onChange, placeholder} = this.props
+
+        ref.getModel().placeholderText = placeholder
+        const buffer = ref.getModel().getBuffer()
+        buffer.onDidChange(() => onChange(buffer.getText()))
+        atom.commands.add(ref, 'core:move-up', onMoveUp)
+        atom.commands.add(ref, 'core:move-down', onMoveDown)
+        atom.commands.add(ref, 'core:cancel', cancel)
+        atom.commands.add(ref, 'core:confirm', next)
+      }
     }
   }
 
   componentDidUpdate() {
-    if (this._ref) {
-      this._ref.focus()
-    }
+    this.initInput(this._ref)
   }
 
-  componentWillReceiveProps({value}) {
+  componentWillReceiveProps({value, isWaiting}) {
     if (value === '' && value !== this.props.value && this._ref) {
       this._ref.getModel().getBuffer().setText('')
     }
+    this.setState({shouldInitRef: isWaiting !== this.props.isWaiting})
   }
 
   render() {
-    const {value, onChange, placeholder, next, cancel, onMoveDown, onMoveUp} = this.props
+    const {isWaiting} = this.props
+    if (isWaiting) return null
 
     return (
       <atom-text-editor
@@ -48,7 +56,8 @@ Input.propTypes = {
   next: React.PropTypes.func.isRequired,
   cancel: React.PropTypes.func.isRequired,
   onMoveDown: React.PropTypes.func.isRequired,
-  onMoveUp: React.PropTypes.func.isRequired
+  onMoveUp: React.PropTypes.func.isRequired,
+  isWaiting: React.PropTypes.bool
 }
 
 export default Input

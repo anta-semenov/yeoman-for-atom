@@ -1,8 +1,8 @@
 import React from 'react'
 import ListItem from '_ListItem'
 
-const List = ({selectedItem, items, onItemClick, onItemCheckboxClick, questionType}) => {
-  if (!items) return null
+const List = ({selectedItem, items, onItemClick, onItemCheckboxClick, questionType, isWaiting}) => {
+  if (!items || isWaiting) return null
 
   return (
     <ol className='list-group'>
@@ -25,7 +25,8 @@ List.propTypes = {
   items: React.PropTypes.object.isRequired,
   questionType: React.PropTypes.string.isRequired,
   onItemClick: React.PropTypes.func.isRequired,
-  onItemCheckboxClick: React.PropTypes.func
+  onItemCheckboxClick: React.PropTypes.func,
+  isWaiting: React.PropTypes.bool
 }
 
 export default List

@@ -5,7 +5,8 @@ import * as fromReducer from '_reducer'
 
 const mapStateToProps = state => ({
   value: fromReducer.getInput(state),
-  placeholder: fromReducer.getInputPlaceholder(state)
+  placeholder: fromReducer.getInputPlaceholder(state),
+  isWaiting: fromReducer.isWaiting(state)
 })
 
 const mapDispatchToProps = dispatch => ({
