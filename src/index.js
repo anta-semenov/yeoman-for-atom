@@ -15,6 +15,8 @@ let modalPanel
 let dispatch
 let originalFunction
 let unsafeFunction
+let originalEval
+let unsafeEval
 
 export const activate = state => {
   const store = configureStore(toggle)
@@ -35,9 +37,11 @@ export const activate = state => {
         params.push(...paramList)
       }
     })
-
     return vm.runInThisContext(`(function(${params.join(', ')}) {${src}})`)
   }
+
+  originalEval = global.eval
+  unsafeEval = source => vm.runInThisContext(source)
 
   modalPanel = atom.workspace.addModalPanel({
     item: element,
@@ -64,9 +68,11 @@ export const toggle = () => {
   if (modalPanel && modalPanel.isVisible()) {
     modalPanel.hide()
     global.Function = originalFunction
+    global.eval = originalEval
   } else {
     modalPanel.show()
     global.Function = unsafeFunction
+    global.eval = unsafeEval
     dispatch(loadGenerators())
   }
 }

@@ -6,8 +6,6 @@ const dialog = (state = {}, action) => {
   switch (action.type) {
     case actionTypes.LOAD_NEXT_QUESTION:
       return loadQuestion(action.question)
-    case actionTypes.INIT_PROMPT:
-      return loadQuestion(action.questions[0])
     case actionTypes.CHANGE_INPUT:
       return onInputChange(state, action.value)
     case actionTypes.UP:

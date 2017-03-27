@@ -44,7 +44,10 @@ export const loadGenerators = () => dispatch => {
           env.cwd = atom.project.getPaths()[0]
           return new Promise(resolve => {
             env.run(generator.namespace, options, resolve)
-          }).then(() => dispatch(toggle())).catch(() => dispatch(toggle()))
+          }).then(() => dispatch(toggle()), reject => {
+            console.log('Error while running generator', reject);
+            dispatch(toggle())
+          })
         }
       })
     })

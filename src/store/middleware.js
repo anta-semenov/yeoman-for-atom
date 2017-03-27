@@ -13,7 +13,7 @@ export const toggleMiddleware = toggleCallback => store => next => action => {
 export const nextQuestionMiddleware = store => next => action => {
   const result = next(action)
 
-  if (action.type === actionTypes.NEXT) {
+  if (action.type === actionTypes.NEXT || action.type === actionTypes.INIT_PROMPT) {
     const nextState = store.getState()
     const questions = getQuestions(nextState)
     const answers = getAnswers(nextState)
@@ -28,7 +28,7 @@ export const nextQuestionMiddleware = store => next => action => {
           default: question.default(answers)
         }
       }
-      if (question.when === undefined|| question.when === true ||
+      if (question.when === undefined || question.when === true ||
           (typeof question.when === 'function' && question.when(answers) === true)) {
         store.dispatch(actions.loadNextQuestion(question))
       } else {
