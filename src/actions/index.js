@@ -4,6 +4,7 @@ import yeoman from 'yeoman-environment'
 import adapter from '_yeomanAdapter'
 import * as questionTypes from '_questionTypes'
 import {getCurrentAnswer} from '_reducer'
+import path from 'path'
 
 let env
 /*
@@ -25,7 +26,7 @@ export const loadNextQuestion = question => ({type: actionTypes.LOAD_NEXT_QUESTI
 * Thunks
 */
 
-export const loadGenerators = () => dispatch => {
+export const loadGenerators = activePath => dispatch => {
   env = yeoman.createEnv(undefined, undefined, adapter)
   env.lookup(() => {
     const generators = env.getGeneratorsMeta()
@@ -35,13 +36,28 @@ export const loadGenerators = () => dispatch => {
         name: generator.namespace.replace(/:app$/, '').replace(':', ' '),
         value: () => {
           dispatch(waiting('Load generator'))
+          const projectDirectory = atom.project.getPaths()[0]
+
+          const {dir: directory} = path.parse(activePath)
+          let file = ''
+
+          if (directory != activePath) {
+            file = activePath
+          }
+
+          const atomOptions = JSON.stringify({
+            file,
+            directory,
+            projectDirectory
+          })
 
           //TODO get different options from atom: project folder, current file, etc
           const options = {
-            cwd: atom.project.getPaths()[0],
-            force: true
+            cwd: projectDirectory,
+            force: true,
+            atom: atomOptions
           }
-          env.cwd = atom.project.getPaths()[0]
+          env.cwd = projectDirectory
           return new Promise(resolve => {
             env.run(generator.namespace, options, resolve)
           }).then(() => dispatch(toggle()), reject => {

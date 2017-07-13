@@ -1,9 +1,9 @@
 {
   "context-menu": {
-    "atom-text-editor": [
+    ".tree-view .entry": [
       {
-        "label": "Toggle yeoman",
-        "command": "yeoman-for-atom:toggle"
+        "label": "Yeoman generator",
+        "command": "yeoman-for-atom:tree-view-context-menu"
       }
     ]
   },
