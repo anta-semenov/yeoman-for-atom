@@ -4,7 +4,7 @@
   "description": "",
   "main": "./lib/bundle",
   "activationCommands": {
-    "atom-workspace": "yeoman-for-atom:toggle"
+    "atom-workspace": ["yeoman-for-atom:toggle", "yeoman-for-atom:tree-view-context-menu"]
   },
   "engines": {
     "atom": ">=1.0.0 <2.0.0"

@@ -73,7 +73,6 @@ export const deactivate = () => {
 export const serialaze = () => {}
 
 export const toggle = path => {
-  console.log('toggle path', path);
   if (modalPanel && modalPanel.isVisible()) {
     modalPanel.hide()
     global.Function = originalFunction

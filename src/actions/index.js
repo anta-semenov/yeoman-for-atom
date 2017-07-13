@@ -38,11 +38,12 @@ export const loadGenerators = activePath => dispatch => {
           dispatch(waiting('Load generator'))
           const projectDirectory = atom.project.getPaths()[0]
 
-          const {dir: directory} = path.parse(activePath)
           let file = ''
+          let directory = activePath
 
-          if (directory != activePath) {
+          if (/\/[^/]+\.[^/.]+$/.test(activePath)) {
             file = activePath
+            directory = path.dirname(activePath)
           }
 
           const atomOptions = JSON.stringify({
@@ -51,7 +52,6 @@ export const loadGenerators = activePath => dispatch => {
             projectDirectory
           })
 
-          //TODO get different options from atom: project folder, current file, etc
           const options = {
             cwd: projectDirectory,
             force: true,

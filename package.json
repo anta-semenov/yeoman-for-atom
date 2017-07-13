@@ -13,7 +13,8 @@
     "start": "NODE_ENV=dev node server.js",
     "test": "jest",
     "test:watch": "npm test -- --watch",
-    "deploy": "node build.js"
+    "deploy": "npm run clean && node build.js",
+    "clean": "rimraf dist/lib/bundle*"
   },
   "dependencies": {
     "classnames": "^2.2.5",
@@ -63,6 +64,7 @@
     "redux-devtools": "^3.3.1",
     "redux-devtools-dock-monitor": "^1.1.1",
     "redux-devtools-log-monitor": "^1.1.0",
+    "rimraf": "^2.6.1",
     "string-replace-loader": "^1.0.5",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
