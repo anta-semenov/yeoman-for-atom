@@ -54,13 +54,19 @@ export const activate = state => {
     'yeoman-for-atom:toggle',
     () => {
       const activeTextEditor = atom.workspace.getActiveTextEditor()
-      toggle(activeTextEditor ? activeTextEditor.getPath() : '')
+      toggle({
+        path: activeTextEditor ? activeTextEditor.getPath() : '',
+        globalCommand: true
+      })
     }
   ))
   subscriptions.add(atom.commands.add(
     'atom-workspace',
     'yeoman-for-atom:tree-view-context-menu',
-    ({target}) => toggle(target.dataset.path)
+    ({target}) => toggle({
+      path: target.dataset.path,
+      treeView: true
+    })
   ))
 }
 
@@ -72,7 +78,7 @@ export const deactivate = () => {
 
 export const serialaze = () => {}
 
-export const toggle = path => {
+export const toggle = ({path, treeView = false, globalCommand = false, editor = false} = {}) => {
   if (modalPanel && modalPanel.isVisible()) {
     modalPanel.hide()
     global.Function = originalFunction
@@ -81,6 +87,11 @@ export const toggle = path => {
     modalPanel.show()
     global.Function = unsafeFunction
     global.eval = unsafeEval
-    dispatch(loadGenerators(path))
+    dispatch(loadGenerators({
+      path,
+      treeView,
+      globalCommand,
+      editor
+    }))
   }
 }

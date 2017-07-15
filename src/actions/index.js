@@ -26,7 +26,7 @@ export const loadNextQuestion = question => ({type: actionTypes.LOAD_NEXT_QUESTI
 * Thunks
 */
 
-export const loadGenerators = activePath => dispatch => {
+export const loadGenerators = ({path: activePath, ...rest}) => dispatch => {
   env = yeoman.createEnv(undefined, undefined, adapter)
   env.lookup(() => {
     const generators = env.getGeneratorsMeta()
@@ -49,7 +49,8 @@ export const loadGenerators = activePath => dispatch => {
           const atomOptions = JSON.stringify({
             file,
             directory,
-            projectDirectory
+            projectDirectory,
+            ...rest
           })
 
           const options = {
