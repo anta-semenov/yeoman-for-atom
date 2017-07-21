@@ -11,7 +11,7 @@ const List = ({selectedItem, items, onItemClick, onItemCheckboxClick, questionTy
           key={index}
           {...item}
           onClick={() => onItemClick(item)}
-          onCheckboxClick={() => onItemCheckboxClick(index)}
+          onCheckboxClick={() => onItemCheckboxClick(item.listId || index)}
           isSelect={selectedItem.name === item.name}
           questionType={questionType}
         />

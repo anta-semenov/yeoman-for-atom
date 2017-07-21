@@ -68,7 +68,7 @@ const getSelectedVariantIndex = state => {
 */
 
 const loadQuestion = ({type, name, message, choices, default: defaultValue}) => {
-  let variants = choices || []
+  let variants = (choices || []).map((variant, index) => ({...variant, listId: index}))
   if (type === questionTypes.CHECKBOX && Array.isArray(defaultValue)) {
     variants = variants.map(item => ({
       ...item,
@@ -89,7 +89,7 @@ const loadQuestion = ({type, name, message, choices, default: defaultValue}) => 
 
 const check = (state, {checkedIndex}) => {
   const variants = state.variants.map((item, index) => {
-    if (index === checkedIndex) {
+    if ((item.listId || index) === checkedIndex) {
       return {...item, checked: !item.checked}
     }
     return item
